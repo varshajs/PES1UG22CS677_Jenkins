@@ -5,7 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'g++ -o PES1UG22CS677.cpp' // Compile the C++ file
+                    // Make sure to specify the source file to compile, like PES1UG22CS677.cpp
+                    sh 'g++ -o PES1UG22CS677 PES1UG22CS677.cpp' // Compile the C++ file to an executable
                 }
             }
         }
@@ -13,7 +14,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh 'PES1UG22CS677' // Run the compiled program
+                    // Run the compiled program
+                    sh './PES1UG22CS677' // Run the executable
                 }
             }
         }
@@ -35,3 +37,4 @@ pipeline {
         }
     }
 }
+
