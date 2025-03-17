@@ -5,8 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Make sure to specify the source file to compile, like PES1UG22CS677.cpp
-                    sh 'g++ -o PES1UG22CS677 PES1UG22CS677.cpp' // Compile the C++ file to an executable
+                    // Intentional error: Trying to compile a non-existent file
+                    sh 'g++ -o PES1UG22CS677 non_existent_file.cpp' // This will fail because the file does not exist
                 }
             }
         }
@@ -14,8 +14,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Run the compiled program
-                    sh './PES1UG22CS677' // Run the executable
+                    // This stage will be skipped because the Build stage failed
+                    sh './PES1UG22CS677' // Run the executable (will not be reached due to the error in Build)
                 }
             }
         }
@@ -23,18 +23,17 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application...' 
-                // Add deployment steps here if needed
+                // This stage will also be skipped due to the error in Build
             }
         }
     }
     
     post {
         failure {
-            echo 'Pipeline failed! Please check the logs.'
+            echo 'Pipeline failed! Please check the logs.' // This will be executed when the pipeline fails
         }
         success {
-            echo 'Pipeline executed successfully!'
+            echo 'Pipeline executed successfully!' // This will not be reached if the pipeline fails
         }
     }
 }
-
